@@ -9,23 +9,7 @@ GAME RULES:
 
 */ 
 
-let scores = [0,0];
-let roundScore = 0;
-let activePlayer = 0;
-
-// querySelector as setter
-//document.querySelector('#current-' + activePlayer).textContent = dice;
-// querySelector in getter
-//let someVar = document.querySelector('#score-0').textContent;
-//console.log(someVar);
-// hide dice img
-document.querySelector('.dice').style.display = 'none';
-
-// initialize round score with zero
-document.getElementById('score-0').textContent = '0';
-document.getElementById('score-1').textContent = '0';
-document.getElementById('current-0').textContent = '0';
-document.getElementById('current-1').textContent = '0';
+init();
 
 document.querySelector('.btn-roll').addEventListener('click', function(){
     // 1. random number
@@ -43,20 +27,68 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
         document.querySelector('#current-' + activePlayer).textContent = roundScore;
     }
     else {
-        // next player when 1 on dice
-        activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
-        roundScore = 0;
-
-        //resetting scores
-        document.querySelector('#current-0').textContent = '0';
-        document.querySelector('#current-1').textContent = '0';
-
-        document.querySelector('.player-0-panel').classList.toggle('active');
-        document.querySelector('.player-1-panel').classList.toggle('active');
-        
-        // hide the dice
-        document.querySelector('.dice').style.display = 'none';
-        
+        nextPlayer();
     }
 
 });
+
+document.querySelector('.btn-hold').addEventListener('click', function(){
+  // hold the score
+    // 1. add current players score to the global (not round) score
+    scores[activePlayer] += roundScore;
+    document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+    
+    // 2. - check if player won the game
+    if(scores[activePlayer] >= 10){
+        document.querySelector('#name-' + activePlayer).textContent = " W I N N E R !";
+        //document.querySelector('.dice').style.display = 'none'; // nie powinno się tego tak robić. lepiej toggling
+        document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+        document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+
+
+    }else{
+    // 3. change active player
+    nextPlayer();
+    }
+});
+
+// tym razem nie anonimowa funkcja
+document.querySelector('.btn-new').addEventListener('click', init);
+
+function nextPlayer(){
+         // next player when 1 on dice
+         activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+         roundScore = 0;
+ 
+         //resetting scores
+         document.querySelector('#current-0').textContent = '0';
+         document.querySelector('#current-1').textContent = '0';
+ 
+         document.querySelector('.player-0-panel').classList.toggle('active');
+         document.querySelector('.player-1-panel').classList.toggle('active');
+         
+         // hide the dice
+         document.querySelector('.dice').style.display = 'none';
+};
+
+function init(){
+    scores = [0,0];
+    activePlayer = 0;
+    roundScore = 0;
+
+// hide dice img
+document.querySelector('.dice').style.display = 'none';
+
+document.getElementById('score-0').textContent = '0';
+document.getElementById('score-1').textContent = '0';
+document.getElementById('current-0').textContent = '0';
+document.getElementById('current-1').textContent = '0';
+document.getElementById('name-0').textContent = " Player 1";
+document.getElementById('name-1').textContent = " Player 2";
+
+document.querySelector('.player-0-panel').classList.remove('winner');
+document.querySelector('.player-1-panel').classList.remove('winner');
+document.querySelector('.player-0-panel').classList.remove('active');
+document.querySelector('.player-0-panel').classList.add('active');
+document.querySelector('.player-1-panel').classList.remove('active');
+};
