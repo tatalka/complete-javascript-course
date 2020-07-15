@@ -9,6 +9,7 @@ GAME RULES:
 
 */
 let gamePlaying;
+let previousDiceRoll = 0;
 init();
 
 document.querySelector('.btn-roll').addEventListener('click', function () {
@@ -21,11 +22,24 @@ document.querySelector('.btn-roll').addEventListener('click', function () {
         diceDOM.style.display = 'block';
         diceDOM.src = 'dice-' + dice + '.png';
 
+
+        // 2 b. store score to compare with next roll
         // 3.  update the round score if NOT 1.
         if (dice !== 1) {
-            // add score
-            roundScore += dice;
-            document.querySelector('#current-' + activePlayer).textContent = roundScore;
+        // 2.a. compare with previous dice roll
+            if(dice === 6 && dice === previousDiceRoll){
+                scores[activePlayer] = 0;
+                document.querySelector('#score-' + activePlayer).textContent = 0;
+                previousDiceRoll = 0;
+                nextPlayer();
+
+            }
+            else {
+                previousDiceRoll = dice;
+                // add score
+                roundScore += dice;
+                document.querySelector('#current-' + activePlayer).textContent = roundScore;
+            }
         }
         else {
             nextPlayer();
@@ -42,10 +56,11 @@ document.querySelector('.btn-hold').addEventListener('click', function () {
         scores[activePlayer] += roundScore;
         document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
 
+        let inputWinningScore = document.querySelector('.final-score').value;
+        console.log(inputWinningScore);
         // 2. - check if player won the game
         if (scores[activePlayer] >= 10) {
             document.querySelector('#name-' + activePlayer).textContent = " W I N N E R !";
-            //document.querySelector('.dice').style.display = 'none'; // nie powinno się tego tak robić. lepiej toggling
             document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
             document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
             gamePlaying = false;
@@ -99,3 +114,17 @@ function init() {
     document.querySelector('.player-0-panel').classList.add('active');
     document.querySelector('.player-1-panel').classList.remove('active');
 };
+
+// 3 challenges
+// 1. a player loses his ENTIRE score when he rolls two 6 in a row
+//  after that, its the next player's turn. (hint: always save previous dice roll)
+
+// 2. add an input field to the html where players can set the winning score
+// so that they can change the predefined score of 100 (hint : you can read that 
+// value with .value property in Java Script). use google to figure this out
+
+
+// 3. add another dice to the game, so that there are two dices now.
+// the player looses his current score when one of them is 1.
+// hint : you will need css to position the second dice, so take a look a
+// at the CSS code for the first row

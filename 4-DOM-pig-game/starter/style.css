@@ -141,6 +141,8 @@ i {
 .btn-roll { top: 403px;}
 .btn-hold { top: 467px;}
 
+.form-input {top: 100px;}
+
 .dice {
     position: absolute;
     left: 50%;
@@ -152,3 +154,21 @@ i {
 
 .winner { background-color: #f7f7f7; }
 .winner .player-name { font-weight: 300; color: #EB4D4D; }
+
+.final-score {
+    position: absolute;
+    left: 50%;
+    top: 520px;
+    transform: translate(-50%);
+    color: #555;
+    font-size: 18px;
+    font-family: Lato;
+    text-align: center;
+    padding: 10px;
+    width: 150px;
+    text-transform: uppercase;
+}
+
+.final-score:focus {
+    outline: none;
+}
