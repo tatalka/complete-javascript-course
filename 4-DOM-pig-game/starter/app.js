@@ -16,30 +16,19 @@ document.querySelector('.btn-roll').addEventListener('click', function () {
     if (gamePlaying) {
         // 1. random number
         let dice = Math.floor(Math.random() * 6) + 1;
+        let dice2 = Math.floor(Math.random() * 6) + 1;
 
         // 2. display the result
-        let diceDOM = document.querySelector('.dice');
-        diceDOM.style.display = 'block';
-        diceDOM.src = 'dice-' + dice + '.png';
-
+        document.getElementById('dice-1').style.display = 'block';
+        document.getElementById('dice-2').style.display = 'block';
+        document.getElementById('dice-1').src = 'dice-' + dice + '.png';        
+        document.getElementById('dice-2').src = 'dice-' + dice2 + '.png';        
 
         // 2 b. store score to compare with next roll
         // 3.  update the round score if NOT 1.
         if (dice !== 1) {
-        // 2.a. compare with previous dice roll
-            if(dice === 6 && dice === previousDiceRoll){
-                scores[activePlayer] = 0;
-                document.querySelector('#score-' + activePlayer).textContent = 0;
-                previousDiceRoll = 0;
-                nextPlayer();
-
-            }
-            else {
-                previousDiceRoll = dice;
-                // add score
-                roundScore += dice;
-                document.querySelector('#current-' + activePlayer).textContent = roundScore;
-            }
+            roundScore+=dice + dice2;
+            document.getElementById('current-' + activePlayer).textContent = roundScore;
         }
         else {
             nextPlayer();
@@ -75,7 +64,6 @@ document.querySelector('.btn-hold').addEventListener('click', function () {
 
 });
 
-// tym razem nie anonimowa funkcja
 document.querySelector('.btn-new').addEventListener('click', init);
 
 function nextPlayer() {
@@ -91,7 +79,8 @@ function nextPlayer() {
     document.querySelector('.player-1-panel').classList.toggle('active');
 
     // hide the dice
-    document.querySelector('.dice').style.display = 'none';
+    document.getElementById('dice-1').style.display = 'none';
+    document.getElementById('dice-2').style.display = 'none';
 };
 
 function init() {
@@ -101,7 +90,8 @@ function init() {
     roundScore = 0;
 
     // hide dice img
-    document.querySelector('.dice').style.display = 'none';
+    document.getElementById('dice-1').style.display = 'none';
+    document.getElementById('dice-2').style.display = 'none';
 
     document.getElementById('score-0').textContent = '0';
     document.getElementById('score-1').textContent = '0';
