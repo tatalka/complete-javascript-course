@@ -45,8 +45,6 @@ document.querySelector('.btn-roll').addEventListener('click', function () {
             nextPlayer();
         }
     }
-
-
 });
 
 document.querySelector('.btn-hold').addEventListener('click', function () {
@@ -56,10 +54,14 @@ document.querySelector('.btn-hold').addEventListener('click', function () {
         scores[activePlayer] += roundScore;
         document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
 
-        let inputWinningScore = document.querySelector('.final-score').value;
-        console.log(inputWinningScore);
+        let inputValue = document.querySelector('.final-score').value;
+        let winningScore = 100;
+        if (inputValue){
+            winningScore = inputValue;
+        }
+
         // 2. - check if player won the game
-        if (scores[activePlayer] >= 10) {
+        if (scores[activePlayer] >= winningScore) {
             document.querySelector('#name-' + activePlayer).textContent = " W I N N E R !";
             document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
             document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
